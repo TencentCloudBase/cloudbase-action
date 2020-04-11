@@ -3,7 +3,7 @@ on: [push]
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Cloudbase action example
+    name: Tencent Cloudbase Github Action Example
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -15,5 +15,5 @@ jobs:
           secretKey: ${{ secrets.SECRET_KEY }}
           envId: ${{ secrets.ENV_ID }}
           staticSrcPath: build
-      - name: Get the output time
-        run: echo "The time was ${{ steps.deployStatic.outputs.time }}"
+      - name: Get the deploy result
+        run: echo "Deploy to cloudbase result ${{ steps.deployStatic.outputs.deployResult }}"

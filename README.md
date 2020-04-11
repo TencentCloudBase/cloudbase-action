@@ -68,14 +68,15 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy static to Tencent CloudBase
         id: deployStatic
-        uses: TencentCloudBase/cloudbase-action
+        uses: TencentCloudBase/cloudbase-action@v1
         with:
           secretId: ${{ secrets.SECRET_ID }}
           secretKey: ${{ secrets.SECRET_KEY }}
           envId: ${{ secrets.ENV_ID }}
           staticSrcPath: build
       - name: Get the deploy result
-        run: echo "Deploy to cloudbase result: ${{ steps.deployStatic.outputs.deployResult }}"
+        run: echo "Deploy to cloudbase result ${{ steps.deployStatic.outputs.deployResult }}"
+
 ```
 
 在项目 Setting/ Secrets 里设置 `SECRET_ID`, `SECRET_KEY`, `ENV_ID` 信息
