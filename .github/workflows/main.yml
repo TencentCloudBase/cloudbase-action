@@ -3,13 +3,15 @@ on: [push]
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Cloudbase action example
     steps:
-      - name: Hello world action step
-        id: hello
+      - name: Deploy static to Tencent CloudBase
+        id: deployStatic
         uses: ./
         with:
-          who-to-greet: 'Mona the Octocat'
+          secretId: ${{ secrets.SECRET_ID }}
+          secretKey: ${{ secrets.SECRET_KEY }}
+          envId: ${{ secrets.ENV_ID }}
       # Use the output from the `hello` step
       - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+        run: echo "The time was ${{ steps.deployStatic.outputs.time }}"
