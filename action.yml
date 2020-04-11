@@ -1,7 +1,9 @@
 name: "Tencent CloudBase Github Action"
 description: "云开发 Github Action 可以支持将你的项目的部署到云开发环境"
-icon: upload-cloud
-color: blue
+author: bookerzhao
+branding:
+  icon: upload-cloud
+  color: blue
 inputs:
   secretId:
     description: "云开发 secretId"
