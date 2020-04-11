@@ -1,0 +1,18 @@
+name: "Tencent CloudBase Github Action"
+description: "云开发 Github Action 可以支持将你的项目的部署到云开发环境"
+inputs:
+  secretId:
+    description: "云开发 secretId"
+    required: true
+  secretKey:
+    description: "云开发 secretKey"
+    required: true
+  envId:
+    description: "云开发环境 Id"
+    required: true
+outputs:
+  time: # id of output
+    description: "The time we greeted you"
+runs:
+  using: "node12"
+  main: "dist/index.js"

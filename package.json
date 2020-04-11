@@ -1,0 +1,25 @@
+{
+  "name": "tcb-hosting-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "ncc build index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TencentCloudBase/tcb-hosting-action.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TencentCloudBase/tcb-hosting-action/issues"
+  },
+  "homepage": "https://github.com/TencentCloudBase/tcb-hosting-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.3",
+    "@cloudbase/cli": "^0.6.7",
+    "@zeit/ncc": "^0.22.1"
+  }
+}
