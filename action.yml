@@ -10,6 +10,14 @@ inputs:
   envId:
     description: "云开发环境 Id"
     required: true
+  staticSrcPath:
+    description: "静态资源:本地路径"
+    required: true
+    default: build
+  staticDestPath:
+    description: "静态资源:云端路径"
+    required: true
+    default: ""
 outputs:
   time: # id of output
     description: "The time we greeted you"
