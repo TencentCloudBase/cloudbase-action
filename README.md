@@ -6,6 +6,8 @@
 
 云开发 Tencent CloudBase  Github Action 可以将 Github 项目自动部署到云开发环境（目前支持静态托管功能，后续会支持其他资源）
 
+[🚀 在项目中使用此扩展](https://github.com/marketplace/actions/tencent-cloudbase-github-action)
+
 - 云开发官网地址： [https://cloudbase.net/](https://cloudbase.net/)
 - 云开发静态网站开通指南：[https://docs.cloudbase.net/hosting/](https://docs.cloudbase.net/hosting/)
 - 云开发控制台地址： [https://console.cloud.tencent.com/tcb](https://console.cloud.tencent.com/tcb)
