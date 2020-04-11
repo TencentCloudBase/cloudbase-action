@@ -2,12 +2,13 @@
 
 # Tencent CloudBase Github Action
 
-![.github/workflows/main.yml](https://github.com/TencentCloudBase/cloudbase-action/workflows/.github/workflows/main.yml/badge.svg)
+[![.github/workflows/main.yml](https://github.com/TencentCloudBase/cloudbase-action/workflows/.github/workflows/main.yml/badge.svg)](https://github.com/TencentCloudBase/cloudbase-action/actions)
 
 云开发 Tencent CloudBase  Github Action 可以将 Github 项目自动部署到云开发环境（目前支持静态托管功能，后续会支持其他资源）
 
-云开发官网地址： [https://cloudbase.net/](https://cloudbase.net/)
-
+- 云开发官网地址： [https://cloudbase.net/](https://cloudbase.net/)
+- 云开发静态网站开通指南：[https://docs.cloudbase.net/hosting/](https://docs.cloudbase.net/hosting/)
+- 云开发控制台地址： [https://console.cloud.tencent.com/tcb](https://console.cloud.tencent.com/tcb)
 ## 输入
 
 >提示： 标注 🔐的参数属于敏感信息，需要放在项目的 `secret` 存储中，用法可以参考最后的实例 
