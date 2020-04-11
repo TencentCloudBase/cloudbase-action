@@ -2,6 +2,8 @@
 
 # Tencent CloudBase Github Action
 
+![.github/workflows/main.yml](https://github.com/TencentCloudBase/cloudbase-action/workflows/.github/workflows/main.yml/badge.svg)
+
 云开发 Tencent CloudBase  Github Action 可以将 Github 项目自动部署到云开发环境（目前支持静态托管功能，后续会支持其他资源）
 
 云开发官网地址： [https://cloudbase.net/](https://cloudbase.net/)
