@@ -4,31 +4,28 @@
 
 ## 输入
 
-### `secretId`
+>提示： 标注 🔐的参数属于敏感信息，需要放在项目的 `secret` 存储中，用法可以参考最后的实例 
+
+### 🔐`secretId`
 
 **Required** 云开发的访问密钥 secretId. 
 
 在腾讯云[访问管理](https://console.cloud.tencent.com/cam/capi 
 )页面获取 
 
-> 🔐由于访问密钥和环境信息属于敏感信息，需要放在项目的 `secret` 存储中，用法可以参考最后的实例 
-
-### `secretKey`
+### 🔐`secretKey`
 
 **Required** 云开发的访问密钥 secretKey. 
 
 在腾讯云[访问管理](https://console.cloud.tencent.com/cam/capi 
 )页面获取 
 
-> 🔐由于访问密钥和环境信息属于敏感信息，需要放在项目的 `secret` 存储中，用法可以参考最后的实例 
 
-### `envId`
+### 🔐`envId`
 
 **Required** 云开发的环境id envId. 
 
 可以在云开发的控制台获取 [](https://console.cloud.tencent.com/tcb/env/index)
-
-> 🔐由于访问密钥和环境信息属于敏感信息，需要放在项目的 `secret` 存储中，用法可以参考最后的实例 
 
 ### `staticSrcPath`
 
@@ -75,7 +72,8 @@ jobs:
         run: echo "Deploy to cloudbase result: ${{ steps.deployStatic.outputs.deployResult }}"
 ```
 
-然后在项目 Setting/ Secrets 里设置 `SECRET_ID`, `SECRET_KEY`, `ENV_ID` 信息
+在项目 Setting/ Secrets 里设置 `SECRET_ID`, `SECRET_KEY`, `ENV_ID` 信息
 
 ![](assets/secret.png)
 
+提交代码到 Github 时，就会自动部署到云开发到静态托管中
