@@ -1,7 +1,7 @@
 on: [push]
 
 jobs:
-  hello_world_job:
+  deploy:
     runs-on: ubuntu-latest
     name: Cloudbase action example
     steps:
@@ -9,12 +9,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy static to Tencent CloudBase
         id: deployStatic
-        uses: ./
+        uses: TencentCloudBase/cloudbase-action
         with:
           secretId: ${{ secrets.SECRET_ID }}
           secretKey: ${{ secrets.SECRET_KEY }}
           envId: ${{ secrets.ENV_ID }}
-          staticSrcPath: README.md
-      # Use the output from the `hello` step
+          staticSrcPath: build
       - name: Get the output time
         run: echo "The time was ${{ steps.deployStatic.outputs.time }}"

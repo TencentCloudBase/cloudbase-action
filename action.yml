@@ -19,8 +19,8 @@ inputs:
     required: true
     default: ""
 outputs:
-  time: # id of output
-    description: "The time we greeted you"
+  deployResult:
+    description: "部署结果"
 runs:
   using: "node12"
   main: "dist/index.js"
