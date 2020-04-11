@@ -19,6 +19,7 @@
   "homepage": "https://github.com/TencentCloudBase/tcb-hosting-action#readme",
   "dependencies": {
     "@actions/core": "^1.2.3",
+    "@actions/github": "^2.1.1",
     "@cloudbase/cli": "^0.6.7",
     "@zeit/ncc": "^0.22.1"
   }
