@@ -1,27 +1,30 @@
+![Tecent CloudBase](assets/logo.png)
+
 # Tencent CloudBase Github Action
 
 云开发 Tencent CloudBase  Github Action 可以将 Github 项目自动部署到云开发环境（目前支持静态托管功能，后续会支持其他资源）
+
+云开发官网地址： [https://cloudbase.net/](https://cloudbase.net/)
 
 ## 输入
 
 >提示： 标注 🔐的参数属于敏感信息，需要放在项目的 `secret` 存储中，用法可以参考最后的实例 
 
-### 🔐`secretId`
+### `secretId` 🔐
 
 **Required** 云开发的访问密钥 secretId. 
 
 在腾讯云[访问管理](https://console.cloud.tencent.com/cam/capi 
 )页面获取 
 
-### 🔐`secretKey`
+### `secretKey`  🔐
 
 **Required** 云开发的访问密钥 secretKey. 
 
 在腾讯云[访问管理](https://console.cloud.tencent.com/cam/capi 
 )页面获取 
 
-
-### 🔐`envId`
+### `envId` 🔐
 
 **Required** 云开发的环境id envId. 
 
