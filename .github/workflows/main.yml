@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Cloudbase action example
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Deploy static to Tencent CloudBase
         id: deployStatic
         uses: ./
