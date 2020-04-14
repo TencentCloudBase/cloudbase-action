@@ -88,3 +88,4 @@ jobs:
 
 ## 谁在用 Tencent CloudBase Github Action
 - [Linux 中国: TLDR 命令查询工具](https://github.com/LCTT/tldr.linux.cn)
+- [EndureBlaze/EndureBlaze.github.io](https://github.com/EndureBlaze/EndureBlaze.github.io)
