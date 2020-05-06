@@ -79,3 +79,8 @@ jobs:
 ![](assets/secret.png)
 
 提交代码到 Github 时，就会自动部署到云开发到静态托管中
+
+## 谁在用 Tencent CloudBase Github Action
+
+- [Linux 中国: TLDR 命令查询工具](https://github.com/LCTT/tldr.linux.cn)
+- [EndureBlaze/EndureBlaze.github.io](https://github.com/EndureBlaze/EndureBlaze.github.io)
