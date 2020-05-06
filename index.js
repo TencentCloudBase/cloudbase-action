@@ -51,5 +51,5 @@ main({
   envId: core.getInput("envId"),
   staticSrcPath: core.getInput("staticSrcPath"),
   staticDestPath: core.getInput("staticDestPath"),
-  staticIgnore: core.getInput("staticIgnore") || ".git,github,node_modules",
+  staticIgnore: core.getInput("staticIgnore") || ".git,.github,node_modules",
 }).catch((error) => core.setFailed(error.message));

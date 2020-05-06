@@ -25,7 +25,7 @@ inputs:
   staticIgnore:
     description: "静态资源:部署时忽略的文件路径,多个路径用,隔开"
     required: false
-    default: ".git,github,node_modules"
+    default: ".git,.github,node_modules"
 runs:
   using: "node12"
   main: "dist/index.js"
