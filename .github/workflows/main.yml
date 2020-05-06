@@ -9,11 +9,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy static to Tencent CloudBase
         id: deployStatic
-        uses: TencentCloudBase/cloudbase-action@v1
+        uses: ./
         with:
           secretId: ${{ secrets.SECRET_ID }}
           secretKey: ${{ secrets.SECRET_KEY }}
           envId: ${{ secrets.ENV_ID }}
           staticSrcPath: build
+          staticIgnore: '[".test"]'
       - name: Get the deploy result
         run: echo "Deploy to cloudbase result ${{ steps.deployStatic.outputs.deployResult }}"

@@ -16,15 +16,16 @@ inputs:
     required: true
   staticSrcPath:
     description: "静态资源:本地路径"
-    required: true
+    required: false
     default: build
   staticDestPath:
     description: "静态资源:云端路径"
-    required: true
+    required: false
     default: ""
-outputs:
-  deployResult:
-    description: "部署结果"
+  staticIgnore:
+    description: "静态资源:部署时忽略的文件路径,多个路径用,隔开"
+    required: false
+    default: ".git,github,node_modules"
 runs:
   using: "node12"
   main: "dist/index.js"
