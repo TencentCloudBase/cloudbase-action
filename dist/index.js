@@ -6911,7 +6911,7 @@ const main = async ({
     },
   });
 
-  if (error.length) {
+  if (errors.length) {
     core.setFailed(new Error("部署文件部署失败，请重试"));
   } else {
     core.setOutput("deployResult", results);
