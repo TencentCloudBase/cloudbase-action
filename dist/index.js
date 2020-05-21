@@ -3052,8 +3052,10 @@ class FunctionService {
             return res;
         }
         catch (e) {
+            // 函数存在
+            const functionExist = e.code === 'ResourceInUse.FunctionName' || e.code === 'ResourceInUse.Function';
             // 已存在同名函数，强制更新
-            if (e.code === 'ResourceInUse.FunctionName' && force) {
+            if (functionExist && force) {
                 // 创建函数触发器
                 const triggerRes = await this.retryCreateTrigger(funcName, func.triggers);
                 // 更新函数配置和代码
@@ -3732,6 +3734,7 @@ class HostingService {
     constructor(environment) {
         this.environment = environment;
         this.tcbService = new utils_1.CloudService(environment.cloudBaseContext, 'tcb', '2018-06-08');
+        this.cdnService = new utils_1.CloudService(environment.cloudBaseContext, 'cdn', '2018-06-06');
     }
     /**
      * 获取 hosting 信息
@@ -3832,7 +3835,7 @@ class HostingService {
      * @param options
      */
     async uploadFiles(options) {
-        const { localPath, cloudPath, files = [], onProgress, onFileFinish, parallel, ignore } = options;
+        const { localPath, cloudPath, files = [], onProgress, onFileFinish, parallel = 20, ignore } = options;
         const hosting = await this.checkStatus();
         const { Bucket, Regoin } = hosting;
         const storageService = await this.environment.getStorageService();
@@ -3885,14 +3888,26 @@ class HostingService {
         const { Bucket, Regoin } = hosting;
         const storageService = await this.environment.getStorageService();
         if (isDir) {
-            await storageService.deleteDirectoryCustom({
+            return storageService.deleteDirectoryCustom({
                 cloudPath,
                 bucket: Bucket,
                 region: Regoin
             });
         }
         else {
-            await storageService.deleteFileCustom([cloudPath], Bucket, Regoin);
+            try {
+                await storageService.deleteFileCustom([cloudPath], Bucket, Regoin);
+                return {
+                    Deleted: [{ Key: cloudPath }],
+                    Error: []
+                };
+            }
+            catch (e) {
+                return {
+                    Deleted: [],
+                    Error: [e]
+                };
+            }
         }
     }
     // 遍历文件
@@ -3916,8 +3931,61 @@ class HostingService {
         });
         return res;
     }
+    /**
+     * 删除托管域名
+     *
+     * @param {IBindDomainOptions} options
+     * @returns
+     * @memberof HostingService
+     */
+    async deleteHostingDomain(options) {
+        const { envId } = this.getHostingConfig();
+        const { domain } = options;
+        const res = await this.tcbService.request('DeleteHostingDomain', {
+            EnvId: envId,
+            Domain: domain
+        });
+        return res;
+    }
+    /**
+     * 查询域名状态信息
+     * @param options
+     */
+    async tcbCheckResource(options) {
+        return this.cdnService.request('TcbCheckResource', {
+            Domains: options.domains
+        });
+    }
+    /**
+     * 域名配置变更
+     * @param options
+     */
+    async tcbModifyAttribute(options) {
+        const { domain, domainId, domainConfig } = options;
+        const res = await this.cdnService.request('TcbModifyAttribute', {
+            Domain: domain,
+            DomainId: domainId,
+            DomainConfig: domainConfig
+        });
+        return res;
+    }
+    /**
+     * 查询静态网站配置
+     * @memberof HostingService
+     */
+    async getWebsiteConfig() {
+        const hosting = await this.checkStatus();
+        const { Bucket, Regoin } = hosting;
+        const storageService = await this.environment.getStorageService();
+        const res = await storageService.getWebsiteConfig({ bucket: Bucket, region: Regoin });
+        return res;
+    }
+    /**
+     * 配置静态网站文档
+     * @param options
+     */
     async setWebsiteDocument(options) {
-        const { indexDocument, errorDocument } = options;
+        const { indexDocument, errorDocument, routingRules } = options;
         const hosting = await this.checkStatus();
         const { Bucket, Regoin } = hosting;
         const storageService = await this.environment.getStorageService();
@@ -3925,7 +3993,8 @@ class HostingService {
             bucket: Bucket,
             region: Regoin,
             indexDocument,
-            errorDocument
+            errorDocument,
+            routingRules
         });
         return res;
     }
@@ -3986,6 +4055,9 @@ __decorate([
 __decorate([
     utils_1.preLazy()
 ], HostingService.prototype, "CreateHostingDomain", null);
+__decorate([
+    utils_1.preLazy()
+], HostingService.prototype, "deleteHostingDomain", null);
 __decorate([
     utils_1.preLazy()
 ], HostingService.prototype, "checkStatus", null);
@@ -5580,7 +5652,30 @@ formatters.O = function (v) {
 /***/ }),
 /* 82 */,
 /* 83 */,
-/* 84 */,
+/* 84 */
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(248);
+class ThirdService {
+    constructor(environment) {
+        this.cloudService = new utils_1.CloudService(environment.cloudBaseContext, 'tcb', '2018-06-08');
+    }
+    // 解除第三方小程序绑定
+    async deleteThirdPartAttach(options) {
+        const { ThirdPartAppid, TypeFlag } = options;
+        return this.cloudService.request('DeleteThirdPartAttach', {
+            ThirdPartAppid,
+            TypeFlag
+        });
+    }
+}
+exports.ThirdService = ThirdService;
+
+
+/***/ }),
 /* 85 */
 /***/ (function(module) {
 
@@ -6925,7 +7020,7 @@ main({
   envId: core.getInput("envId"),
   staticSrcPath: core.getInput("staticSrcPath"),
   staticDestPath: core.getInput("staticDestPath"),
-  staticIgnore: core.getInput("staticIgnore") || ".git,github,node_modules",
+  staticIgnore: core.getInput("staticIgnore") || ".git,.github,node_modules",
 }).catch((error) => core.setFailed(error.message));
 
 
@@ -42922,7 +43017,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class AsyncTaskParallelController {
     constructor(maxParallel, checkInterval = 20) {
         this.tasks = [];
-        this.maxParallel = maxParallel;
+        this.maxParallel = Number(maxParallel) || 20;
         this.checkInterval = checkInterval;
     }
     loadTasks(tasks) {
@@ -42943,11 +43038,11 @@ class AsyncTaskParallelController {
         const taskDone = [];
         // 当前正在运行的任务数量
         let runningTask = 0;
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             // 使用定时器，不阻塞线程
             const timer = setInterval(() => {
                 // 全部任务运行完成
-                const taskDoneLength = taskDone.filter((item) => item).length;
+                const taskDoneLength = taskDone.filter(item => item).length;
                 if (runningTask === 0 && taskDoneLength === this.totalTasks) {
                     clearInterval(timer);
                     resolve(results);
@@ -42962,13 +43057,13 @@ class AsyncTaskParallelController {
                         runningTask++;
                         taskHasRun[index] = 1;
                         task()
-                            .then((res) => {
+                            .then(res => {
                             results[index] = res;
                         })
-                            .catch((err) => {
+                            .catch(err => {
                             results[index] = err;
                         })
-                            .finally(() => {
+                            .then(() => {
                             runningTask--;
                             taskDone[index] = 1;
                         });
@@ -50650,7 +50745,7 @@ class StorageService {
      * @returns {Promise<void>}
      */
     async uploadDirectoryCustom(options) {
-        const { localPath, cloudPath, bucket, region, onProgress, onFileFinish, ignore, fileId = true } = options;
+        const { localPath, cloudPath, bucket, region, onProgress, onFileFinish, ignore, fileId = true, parallel = 20 } = options;
         // 此处不检查路径是否存在
         // 绝对路径 /var/blog/xxxx
         const resolvePath = path_1.default.resolve(localPath);
@@ -50681,18 +50776,17 @@ class StorageService {
                 };
             }
         });
-        // 创建文件夹对象
-        const createDirs = fileStatsList
+        // 创建目录请求
+        const creatingDirController = new parallel_1.AsyncTaskParallelController(parallel, 50);
+        const creatingDirTasks = fileStatsList
             .filter(info => info.isDir)
-            .map(info => {
-            // 如果是文件夹，则创建空文件夹对象
-            return this.createCloudDirectroyCustom({
-                cloudPath: info.cloudFileKey,
-                bucket,
-                region
-            });
-        });
-        await Promise.all(createDirs);
+            .map(info => () => this.createCloudDirectroyCustom({
+            cloudPath: info.cloudFileKey,
+            bucket,
+            region
+        }));
+        creatingDirController.loadTasks(creatingDirTasks);
+        await creatingDirController.run();
         // 上传文件对象
         const tasks = fileStatsList
             .filter(stats => !stats.isDir)
@@ -50711,10 +50805,11 @@ class StorageService {
             };
         });
         // 控制请求并发
-        const asyncTaskController = new parallel_1.AsyncTaskParallelController(100, 50);
-        asyncTaskController.loadTasks(tasks);
-        const files = await asyncTaskController.run();
-        const cos = this.getCos();
+        const getMetadataController = new parallel_1.AsyncTaskParallelController(parallel, 50);
+        getMetadataController.loadTasks(tasks);
+        const files = await getMetadataController.run();
+        // 对文件上传进行处理
+        const cos = this.getCos(parallel);
         const uploadFiles = util_1.default.promisify(cos.uploadFiles).bind(cos);
         return uploadFiles({
             files,
@@ -50728,7 +50823,7 @@ class StorageService {
      * @param options
      */
     async uploadFilesCustom(options) {
-        const { files, bucket, region, ignore, onProgress, onFileFinish, fileId = true, parallel = 5 } = options;
+        const { files, bucket, region, ignore, onProgress, onFileFinish, fileId = true, parallel = 20 } = options;
         if (!files || !files.length) {
             return;
         }
@@ -50757,17 +50852,16 @@ class StorageService {
             };
         });
         // 控制请求并发
-        const asyncTaskController = new parallel_1.AsyncTaskParallelController(100, 50);
+        const asyncTaskController = new parallel_1.AsyncTaskParallelController(parallel, 50);
         asyncTaskController.loadTasks(tasks);
         fileList = await asyncTaskController.run();
-        const cos = this.getCos();
+        const cos = this.getCos(parallel);
         const uploadFiles = util_1.default.promisify(cos.uploadFiles).bind(cos);
         return uploadFiles({
             onProgress,
             onFileFinish,
             files: fileList,
-            SliceSize: BIG_FILE_SIZE,
-            FileParallelLimit: parallel
+            SliceSize: BIG_FILE_SIZE
         });
     }
     /**
@@ -51045,13 +51139,27 @@ class StorageService {
                 Error: []
             };
         }
-        // 删除多个文件
-        const res = await deleteMultipleObject({
+        // COS 接口最大一次删除 1000 个 Key
+        // 将数组切分为 500 个文件一组
+        const sliceGroup = [];
+        const total = Math.ceil(files.length / 500);
+        for (let i = 0; i < total; i++) {
+            sliceGroup.push(files.splice(0, 500));
+        }
+        const tasks = sliceGroup.map(group => deleteMultipleObject({
             Bucket: bucket,
             Region: region,
-            Objects: files.map(file => ({ Key: file.Key }))
-        });
-        return res;
+            Objects: group.map(file => ({ Key: file.Key }))
+        }));
+        // 删除多个文件
+        const taskRes = await Promise.all(tasks);
+        // 合并响应结果
+        const Deleted = taskRes.map(_ => _.Deleted).reduce((prev, next) => [...prev, ...next], []);
+        const Error = taskRes.map(_ => _.Error).reduce((prev, next) => [...prev, ...next], []);
+        return {
+            Deleted,
+            Error
+        };
     }
     /**
      * 获取文件存储权限
@@ -51151,11 +51259,18 @@ class StorageService {
     async walkLocalDir(dir, ignore) {
         try {
             return walkdir_1.default.async(dir, {
-                filter: (dir, files) => {
+                filter: (currDir, files) => {
                     // NOTE: ignore 为空数组时会忽略全部文件
                     if (!ignore || !ignore.length)
                         return files;
-                    return micromatch_1.default.not(files, ignore);
+                    return files.filter(item => {
+                        // 当前文件全路径
+                        const fullPath = path_1.default.join(currDir, item);
+                        // 文件相对于传入目录的路径
+                        const fileRelativePath = fullPath.replace(path_1.default.join(dir, path_1.default.sep), '');
+                        // 匹配
+                        return !micromatch_1.default.isMatch(fileRelativePath, ignore);
+                    });
                 }
             });
         }
@@ -51184,13 +51299,26 @@ class StorageService {
         return res.data;
     }
     /**
+     * 获取静态网站配置
+     */
+    async getWebsiteConfig(options) {
+        const { bucket, region } = options;
+        const cos = this.getCos();
+        const getBucketWebsite = util_1.default.promisify(cos.getBucketWebsite).bind(cos);
+        const res = await getBucketWebsite({
+            Bucket: bucket,
+            Region: region
+        });
+        return res;
+    }
+    /**
      * 配置文档
      */
     async putBucketWebsite(options) {
-        const { indexDocument, errorDocument, bucket, region } = options;
+        const { indexDocument, errorDocument, bucket, region, routingRules } = options;
         const cos = this.getCos();
         const putBucketWebsite = util_1.default.promisify(cos.putBucketWebsite).bind(cos);
-        const res = await putBucketWebsite({
+        let params = {
             Bucket: bucket,
             Region: region,
             WebsiteConfiguration: {
@@ -51201,7 +51329,36 @@ class StorageService {
                     Key: errorDocument
                 }
             }
-        });
+        };
+        if (routingRules) {
+            params.WebsiteConfiguration.RoutingRules = [];
+            for (let value of routingRules) {
+                const routeItem = {};
+                if (value.keyPrefixEquals) {
+                    routeItem.Condition = {
+                        KeyPrefixEquals: value.keyPrefixEquals
+                    };
+                }
+                if (value.httpErrorCodeReturnedEquals) {
+                    routeItem.Condition = {
+                        HttpErrorCodeReturnedEquals: value.httpErrorCodeReturnedEquals
+                    };
+                }
+                if (value.replaceKeyWith) {
+                    routeItem.Redirect = {
+                        ReplaceKeyWith: value.replaceKeyWith
+                    };
+                }
+                if (value.replaceKeyPrefixWith) {
+                    routeItem.Redirect = {
+                        ReplaceKeyPrefixWith: value.replaceKeyPrefixWith
+                    };
+                }
+                params.WebsiteConfiguration.RoutingRules.push(routeItem);
+            }
+        }
+        console.log('params:', JSON.stringify(params));
+        const res = await putBucketWebsite(params);
         return res;
     }
     /**
@@ -51222,23 +51379,24 @@ class StorageService {
             MaxKeys: maxKeys,
             Marker: marker
         });
-        // console.log(res)
         return res;
     }
     /**
      * 获取 COS 配置
      */
-    getCos() {
+    getCos(parallel = 20) {
         const { secretId, secretKey, token, proxy } = this.environment.getAuthConfig();
         const cosProxy = process.env.TCB_COS_PROXY;
         if (!token) {
             return new cos_nodejs_sdk_v5_1.default({
+                FileParallelLimit: parallel,
                 SecretId: secretId,
                 SecretKey: secretKey,
                 Proxy: cosProxy || proxy
             });
         }
         return new cos_nodejs_sdk_v5_1.default({
+            FileParallelLimit: parallel,
             getAuthorization: function (_, callback) {
                 callback({
                     TmpSecretId: secretId,
@@ -70362,6 +70520,9 @@ class CloudBase {
     get env() {
         return this.currentEnvironment().getEnvService();
     }
+    get third() {
+        return this.currentEnvironment().getThirdService();
+    }
     getEnvironmentManager() {
         return this.environmentManager;
     }
@@ -77530,7 +77691,8 @@ class CloudService {
             scf: 'https://scf.tencentcloudapi.com',
             vpc: 'https://vpc.tencentcloudapi.com',
             flexdb: 'https://flexdb.ap-shanghai.tencentcloudapi.com',
-            cam: 'https://cam.tencentcloudapi.com'
+            cam: 'https://cam.tencentcloudapi.com',
+            cdn: 'https://cdn.tencentcloudapi.com'
         };
         if (urlMap[this.service]) {
             return urlMap[this.service];
@@ -94279,6 +94441,7 @@ const error_1 = __webpack_require__(29);
 const constant_1 = __webpack_require__(694);
 const utils_1 = __webpack_require__(248);
 const hosting_1 = __webpack_require__(63);
+const third_1 = __webpack_require__(84);
 class Environment {
     constructor(context, envId) {
         this.inited = false;
@@ -94290,11 +94453,12 @@ class Environment {
         this.storageService = new storage_1.StorageService(this);
         this.envService = new env_1.EnvService(this);
         this.hostingService = new hosting_1.HostingService(this);
+        this.thirdService = new third_1.ThirdService(this);
     }
     async lazyInit() {
         if (!this.inited) {
             const envConfig = this.envService;
-            return envConfig.getEnvInfo().then(envInfo => {
+            return envConfig.getEnvInfo().then((envInfo) => {
                 this.lazyEnvironmentConfig = envInfo.EnvInfo;
                 if (!this.lazyEnvironmentConfig.EnvId) {
                     throw new error_1.CloudBaseError(`Environment ${this.envId} not found`);
@@ -94325,12 +94489,15 @@ class Environment {
     getHostingService() {
         return this.hostingService;
     }
+    getThirdService() {
+        return this.thirdService;
+    }
     getCommonService(serviceType = 'tcb', serviceVersion) {
         return new common_1.CommonService(this, serviceType, serviceVersion);
     }
     getServicesEnvInfo() {
         const envConfig = this.envService;
-        return envConfig.getEnvInfo().then(envInfo => {
+        return envConfig.getEnvInfo().then((envInfo) => {
             return envInfo.EnvInfo;
         });
     }

@@ -20,7 +20,7 @@
   "dependencies": {
     "@actions/core": "^1.2.3",
     "@actions/github": "^2.1.1",
-    "@cloudbase/manager-node": "^3.2.2",
+    "@cloudbase/manager-node": "^3.3.0",
     "@zeit/ncc": "^0.22.1"
   }
 }
