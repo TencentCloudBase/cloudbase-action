@@ -1,0 +1,90 @@
+{
+  "_from": "@cloudbase/manager-node@latest",
+  "_id": "@cloudbase/manager-node@3.3.0",
+  "_inBundle": false,
+  "_integrity": "sha512-RszDczHC6ny7au2COhXC6bwM+DpoYgnMVn65wKbSCn0pxqsDQToLWYuqchImuE8muAzt5DEDMUyofgiVKIfepg==",
+  "_location": "/@cloudbase/manager-node",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "@cloudbase/manager-node@latest",
+    "name": "@cloudbase/manager-node",
+    "escapedName": "@cloudbase%2fmanager-node",
+    "scope": "@cloudbase",
+    "rawSpec": "latest",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@cloudbase/manager-node/-/manager-node-3.3.0.tgz",
+  "_shasum": "401380bd730953e58ec7c9d3d34b5786c9fc499f",
+  "_spec": "@cloudbase/manager-node@latest",
+  "_where": "/Users/bookerzhao/Projects/tcb-hosting-action",
+  "author": {
+    "name": "Tencent CloudBase Team"
+  },
+  "bugs": {
+    "url": "https://github.com/TencentCloudBase/cloudbase-manager-node/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@cloudbase/database": "^0.6.2",
+    "archiver": "^3.1.1",
+    "cos-nodejs-sdk-v5": "^2.5.20",
+    "del": "^5.1.0",
+    "https-proxy-agent": "^2.2.4",
+    "make-dir": "^3.0.0",
+    "micromatch": "^4.0.2",
+    "node-fetch": "^2.6.0",
+    "query-string": "^6.8.3",
+    "walkdir": "^0.4.1"
+  },
+  "deprecated": false,
+  "description": "The node manage service api for cloudbase.",
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.4",
+    "@types/node-fetch": "^2.5.0",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
+    "eslint": "^6.8.0",
+    "eslint-config-alloy": "^3.5.0",
+    "husky": "^3.0.5",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.2.5",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.8.3"
+  },
+  "homepage": "https://github.com/TencentCloudBase/cloudbase-manager-node#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build && git add . && lint-staged"
+    }
+  },
+  "license": "ISC",
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "main": "lib/index.js",
+  "name": "@cloudbase/manager-node",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TencentCloudBase/cloudbase-manager-node.git"
+  },
+  "scripts": {
+    "build": "rimraf lib types && npx tsc",
+    "lint": "eslint \"./**/*.ts\"",
+    "lint:fix": "eslint --fix \"./**/*.ts\"",
+    "test": "jest --runInBand --detectOpenHandles --coverage --testTimeout=50000"
+  },
+  "typings": "types/index.d.ts",
+  "version": "3.3.0"
+}

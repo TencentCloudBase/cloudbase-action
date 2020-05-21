@@ -1,0 +1,67 @@
+{
+  "_from": "cos-nodejs-sdk-v5@^2.5.20",
+  "_id": "cos-nodejs-sdk-v5@2.5.20",
+  "_inBundle": false,
+  "_integrity": "sha512-KaDhM9yGwk1ha4l8GrDtZVXM0dI1bJ8tkHnsogGdrBTwBFcHc0oTnV2mpBkhDx1Zo6LCOVVgTXTuftZUqqki/A==",
+  "_location": "/cos-nodejs-sdk-v5",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "cos-nodejs-sdk-v5@^2.5.20",
+    "name": "cos-nodejs-sdk-v5",
+    "escapedName": "cos-nodejs-sdk-v5",
+    "rawSpec": "^2.5.20",
+    "saveSpec": null,
+    "fetchSpec": "^2.5.20"
+  },
+  "_requiredBy": [
+    "/@cloudbase/manager-node"
+  ],
+  "_resolved": "https://registry.npmjs.org/cos-nodejs-sdk-v5/-/cos-nodejs-sdk-v5-2.5.20.tgz",
+  "_shasum": "1f3c8db8a0e5c1b4c9901084718cfcf66aaa0016",
+  "_spec": "cos-nodejs-sdk-v5@^2.5.20",
+  "_where": "/Users/bookerzhao/Projects/tcb-hosting-action/node_modules/@cloudbase/manager-node",
+  "author": {
+    "name": "carsonxu"
+  },
+  "bugs": {
+    "url": "https://github.com/tencentyun/cos-nodejs-sdk-v5/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "configstore": "^3.1.2",
+    "mime-types": "^2.1.24",
+    "request": "^2.88.0",
+    "xml2js": "^0.4.19"
+  },
+  "deprecated": false,
+  "description": "cos nodejs sdk v5",
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "qcloud-cos-sts": "^3.0.0"
+  },
+  "homepage": "https://github.com/tencentyun/cos-nodejs-sdk-v5#readme",
+  "keywords": [
+    "tencent",
+    "tencent cloud",
+    "qcloud",
+    "cos",
+    "cos-sdk"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "cos-nodejs-sdk-v5",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tencentyun/cos-nodejs-sdk-v5.git"
+  },
+  "scripts": {
+    "csp": "mocha test/csp.js",
+    "demo": "node demo/demo.js",
+    "demo-sts": "node demo/demo-sts.js",
+    "demo-sts-scope": "node demo/demo-sts-scope.js",
+    "test": "mocha test/test.js"
+  },
+  "version": "2.5.20"
+}
