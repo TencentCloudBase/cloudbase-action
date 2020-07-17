@@ -44,7 +44,7 @@ Github 项目静态文件的路径。 默认值 `build`
 
 静态资源部署到云开发静态托管的路径，默认为根目录。
 
-### `staitcIgnore`
+### `staticIgnore`
 
 `v.1.1.0` 版本开始支持
 
