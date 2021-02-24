@@ -18,5 +18,5 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: sudo bash ${{ github.action_path }}/run.sh ${{ inputs.secretId }} ${{ inputs.secretKey }} ${{ inputs.envId }}
+    - run: sudo bash ${{ github.action_path }}/@v2/run.sh ${{ inputs.secretId }} ${{ inputs.secretKey }} ${{ inputs.envId }}
       shell: bash
