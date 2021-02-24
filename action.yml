@@ -1,31 +1,22 @@
-name: "Tencent CloudBase Github Action"
-description: "云开发 Github Action 可以支持将你的项目的部署到云开发环境"
+name: 'Tencent CloudBase Github Action'
+description: '云开发 Github Action 可以支持将你的项目一键部署到云开发环境'
 author: bookerzhao
 branding:
   icon: upload-cloud
   color: blue
 inputs:
   secretId:
-    description: "云开发 secretId"
+    description: '云开发 secretId'
     required: true
   secretKey:
-    description: "云开发 secretKey"
+    description: '云开发 secretKey'
     required: true
   envId:
-    description: "云开发环境 Id"
+    description: '云开发环境 Id'
     required: true
-  staticSrcPath:
-    description: "静态资源:本地路径"
-    required: false
-    default: build
-  staticDestPath:
-    description: "静态资源:云端路径"
-    required: false
-    default: ""
-  staticIgnore:
-    description: "静态资源:部署时忽略的文件路径,多个路径用,隔开"
-    required: false
-    default: ".git,.github,node_modules"
+
 runs:
-  using: "node12"
-  main: "dist/index.js"
+  using: 'composite'
+  steps:
+    - run: sudo bash ${{ github.action_path }}/run.sh ${{ inputs.secretId }} ${{ inputs.secretKey }} ${{ inputs.envId }}
+      shell: bash
