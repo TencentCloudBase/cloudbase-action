@@ -1,0 +1,19 @@
+name: 'deploy'
+on:
+  watch:
+    # Test on star
+    types: [started]
+
+jobs:
+  test@v2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull codebase
+        uses: actions/checkout@v2
+
+      - name: Deploy to cloudbase
+        uses: ./
+        with:
+          secretId: ${{secrets.secretId}}
+          secretKey: ${{secrets.secretKey}}
+          envId: ${{secrets.envId}}
