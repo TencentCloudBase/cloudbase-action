@@ -8,7 +8,7 @@
       "func": {
         "use": "@cloudbase/framework-plugin-function",
         "inputs": {
-          "functionRootPath": "./thisWillFailOnActions",
+          "functionRootPath": "./EmptyDir",
           "functions": [
             {
               "name": "actions-function",
