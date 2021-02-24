@@ -3,6 +3,23 @@
 SECRET_ID="$1"
 SECRET_KEY="$2"
 ENV_ID="$3"
+CONFIG_FILE="./cloudbaserc.json"
+
+#
+# Must Requied variables check
+#
+if [ -z "$SECRET_ID" ] || [ -z "$SECRET_KEY" ] || [ -z "$ENV_ID" ]; then
+    echo "::error:: Missing required parameters"
+    exit 1
+fi
+
+#
+# Config file check
+#
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "::error:: Missing cloudbase configuration file"
+    exit 1
+fi
 
 #
 # Trace commands, print tips & description
