@@ -6,7 +6,7 @@ ENV_ID="$3"
 CONFIG_FILE="./cloudbaserc.json"
 
 #
-# Must Requied variables check
+# Must Required variables check
 #
 if [ -z "$SECRET_ID" ] || [ -z "$SECRET_KEY" ] || [ -z "$ENV_ID" ]; then
     echo "::error:: Missing required parameters"
