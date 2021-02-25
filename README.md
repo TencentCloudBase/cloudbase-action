@@ -83,8 +83,8 @@
 
    ```diff
     name: Tencent Cloudbase Github Action Example
-    +env:
-    +  accessToken: ${{ secrets.accessToken }}
+   +env:
+   +  accessToken: ${{ secrets.accessToken }}
    ```
 
    其中 `env` 下的 `ACCESS_TOKEN` 键值对是我们[部署时设置的环境变量](https://docs.github.com/en/actions/reference/environment-variables#about-environment-variables)，它的功能与本地的 `.env` 文件相同
