@@ -4,7 +4,7 @@
 
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/TencentCloudBase/cloudbase-action?label=Actions&logo=github)](https://github.com/marketplace/actions/tencent-cloudbase-github-action) [![.github/workflows/main.yml](https://github.com/TencentCloudBase/cloudbase-action/workflows/.github/workflows/main.yml/badge.svg)](https://github.com/TencentCloudBase/cloudbase-action/actions)
 
-云开发 Tencent CloudBase Github Action 借力于 [Cloubase Framework](https://github.com/Tencent/cloudbase-framework)，可以将 Github 项目自动部署到云开发环境
+云开发 Tencent CloudBase Github Action 借力于 [CloudBase Framework](https://github.com/Tencent/cloudbase-framework)，可以将 Github 项目自动部署到云开发环境
 
 如果你目前使用的是 Tencent CloudBase Github Action V1 版本，请参考 [V1 README](https://github.com/TencentCloudBase/cloudbase-action/blob/3354b442713265aa9d7c5bf03b0b8cb0173f546f/README.md)，推荐使用 V2 版本以获取更多功能
 
