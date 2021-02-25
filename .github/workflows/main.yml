@@ -1,4 +1,7 @@
-on: [push]
+on:
+  watch:
+    # Test on star, not push
+    types: [started]
 
 jobs:
   deploy:

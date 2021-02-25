@@ -79,7 +79,7 @@
              envId: ${{secrets.envId}}
    ```
 
-   假设我们在部署时需要设置私密型的环境变量(比如小程序 `appid`)，请在以上代码中新增以下内容：
+   假设我们在部署时需要设置私密型的环境变量(比如小程序 `appid` 或访问数据库的 `accessToken`)，请在以上代码中新增以下内容：
 
    ```diff
     name: Tencent Cloudbase Github Action Example
@@ -87,7 +87,7 @@
    +  accessToken: ${{ secrets.accessToken }}
    ```
 
-   其中 `env` 下的 `ACCESS_TOKEN` 键值对是我们[部署时设置的环境变量](https://docs.github.com/en/actions/reference/environment-variables#about-environment-variables)，它的功能与本地的 `.env` 文件相同
+   其中 `env` 下的 `accessToken` 键值对是我们[部署时设置的环境变量](https://docs.github.com/en/actions/reference/environment-variables#about-environment-variables)，它的功能与本地的 `.env` 文件相同
 
 2. 在项目中配置 `cloudbaserc.json` 文件并引入我们刚刚配置的环境变量：
 
