@@ -49,7 +49,7 @@
 
 ## 配置文件
 
-请确保在项目根目录存在 `cloudbaserc.json` 文件并配置好 CloudBase Framework，[参考教程](https://docs.cloudbase.net/framework/config.html#pei-zhi-shuo-ming)
+请确保项目根目录存在 `cloudbaserc.json` 文件并配置好 CloudBase Framework，[参考教程](https://docs.cloudbase.net/framework/config.html#pei-zhi-shuo-ming)
 
 > 如果你的项目正在使用 CloudBase Framework，那么此 Action 就是 0 配置的
 
@@ -57,7 +57,7 @@
 
 ## 参考示例
 
-**以下示例将演示：如何快速部署云函数到 CloudBase**
+**以下示例将演示：如何快速部署云函数到 CloudBase(同时设定部署的私密环境变量)**
 
 1. 编写如下的 Github Action 文件 `.github/workflows/main.yml`
 
@@ -74,12 +74,22 @@
          - name: Deploy to Tencent CloudBase
            uses: TencentCloudBase/cloudbase-action@v2
            with:
-             secretId: ${{ secrets.SECRET_ID }}
-             secretKey: ${{ secrets.SECRET_KEY }}
-             envId: ${{ secrets.ENV_ID }}
+             secretId: ${{secrets.secretId}}
+             secretKey: ${{secrets.secretKey}}
+             envId: ${{secrets.envId}}
    ```
 
-2. 在项目中配置 `cloudbaserc.json` 文件：
+   假设我们在部署时需要设置私密型的环境变量(比如小程序 `appid`)，请在以上代码中新增以下内容：
+
+   ```diff
+    name: Tencent Cloudbase Github Action Example
+    +env:
+    +  accessToken: ${{ secrets.accessToken }}
+   ```
+
+   其中 `env` 下的 `ACCESS_TOKEN` 键值对是我们[部署时设置的环境变量](https://docs.github.com/en/actions/reference/environment-variables#about-environment-variables)，它的功能与本地的 `.env` 文件相同
+
+2. 在项目中配置 `cloudbaserc.json` 文件并引入我们刚刚配置的环境变量：
 
    ```json
    {
@@ -93,11 +103,14 @@
            "inputs": {
              "functions": [
                {
-                 "name": "actions-function",
+                 "name": "example",
                  "memorySize": 128,
                  "timeout": 5,
                  "runtime": "Nodejs10.15",
-                 "handler": "index.main"
+                 "handler": "index.main",
+                 "envVariables": {
+                   "accessToken": "{{env.accessToken}}"
+                 }
                }
              ]
            }
@@ -107,11 +120,11 @@
    }
    ```
 
-3. 在项目 Settings/Secrets 里设置 `SECRET_ID`, `SECRET_KEY`, `ENV_ID` 信息
+3. 在项目 Settings/Secrets 里设置 `secretId`, `secretKey`, `envId`, `accessToken` 信息
 
-   ![](assets/secret.png)
+   ![secrets](assets/secrets.png)
 
-4. 配置完成，提交代码到 Github 时，就会自动部署项目中的 `actions-function` 函数到云开发中
+4. 配置完成后，提交代码到 Github 时，就会自动部署项目中的 `example` 函数到云开发中，即时函数的环境变量也会设置成功
 
 ## 谁在用 Tencent CloudBase Github Action
 
