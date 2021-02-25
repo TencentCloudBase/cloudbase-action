@@ -1,0 +1,26 @@
+{
+  "envId": "{{env.ENV_ID}}",
+  "version": "2.0",
+  "framework": {
+    "name": "gh-actions-test",
+    "plugins": {
+      "func": {
+        "use": "@cloudbase/framework-plugin-function",
+        "inputs": {
+          "functions": [
+            {
+              "name": "example",
+              "memorySize": 128,
+              "timeout": 5,
+              "runtime": "Nodejs10.15",
+              "handler": "index.main",
+              "envVariables": {
+                "accessToken": "{{env.accessToken}}"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
