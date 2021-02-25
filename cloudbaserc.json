@@ -1,21 +1,22 @@
 {
   "envId": "{{env.ENV_ID}}",
   "version": "2.0",
-  "$schema": "https://framework-1258016615.tcloudbaseapp.com/schema/latest.json",
   "framework": {
     "name": "gh-actions-test",
     "plugins": {
       "func": {
         "use": "@cloudbase/framework-plugin-function",
         "inputs": {
-          "functionRootPath": "./EmptyDir",
           "functions": [
             {
-              "name": "actions-function",
+              "name": "example",
               "memorySize": 128,
               "timeout": 5,
               "runtime": "Nodejs10.15",
-              "handler": "index.main"
+              "handler": "index.main",
+              "envVariables": {
+                "accessToken": "{{env.accessToken}}"
+              }
             }
           ]
         }
