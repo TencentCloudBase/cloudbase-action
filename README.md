@@ -2,6 +2,8 @@
 
 # Tencent CloudBase Github Action
 
+[![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/TencentCloudBase/cloudbase-action?label=Actions&logo=github)](https://github.com/marketplace/actions/tencent-cloudbase-github-action)
+
 [![.github/workflows/main.yml](https://github.com/TencentCloudBase/cloudbase-action/workflows/.github/workflows/main.yml/badge.svg)](https://github.com/TencentCloudBase/cloudbase-action/actions)
 
 云开发 Tencent CloudBase Github Action 借力于 [Cloubase-Freamwork](https://github.com/Tencent/cloudbase-framework)，可以将 Github 项目自动部署到云开发环境
