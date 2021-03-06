@@ -1,6 +1,9 @@
 ![Tecent CloudBase](assets/logo.png)
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 # Tencent CloudBase Github Action
@@ -50,7 +53,9 @@
 
 ## 配置文件
 
-请确保项目根目录存在 `cloudbaserc.json` 文件并配置好 CloudBase Framework，[参考教程](https://docs.cloudbase.net/framework/config.html#pei-zhi-shuo-ming)
+请**确保**项目根目录存在 `cloudbaserc.json` 文件并配置好 CloudBase Framework，[参考教程](https://docs.cloudbase.net/framework/config.html#pei-zhi-shuo-ming)
+
+如需配置部署**地域**，请参考[配置字段](https://docs.cloudbase.net/cli-v1/config.html#zi-duan)
 
 > 如果你的项目正在使用 CloudBase Framework，那么此 Action 就是 0 配置的
 
