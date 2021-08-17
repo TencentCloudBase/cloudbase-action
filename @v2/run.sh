@@ -30,10 +30,8 @@ trace() {
     # Group inner steps
     echo -e "::group::$2"
     echo -e "\e[32m› $1"
-    eval "$1"
-    ERROR_CODE=$?
-    if [[ $ERROR_CODE -ne 0 ]]; then
-        exit $ERROR_CODE
+    if ! eval "$1" ; then
+        exit 1
     fi
     echo "::endgroup::"
 }
