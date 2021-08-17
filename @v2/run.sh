@@ -36,7 +36,7 @@ trace() {
     echo "::endgroup::"
 }
 
-trace "sudo npm install -g @cloudbase/cli --loglevel=error" "\e[34mDownload and install cloudbase cli"
+trace "sudo npm install -g @cloudbase/cli --loglevel=error --no-fund --no-audit --no-progress --prefer-offline" "\e[34mDownload and install cloudbase cli"
 
 trace "tcb login --apiKeyId "$SECRET_ID" --apiKey "$SECRET_KEY"" "\e[34mLogin to cloudbase"
 
