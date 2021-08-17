@@ -31,11 +31,15 @@ trace() {
     echo -e "::group::$2"
     echo -e "\e[32m› $1"
     eval "$1"
+    ERROR_CODE=$?
+    if [[ $ERROR_CODE -ne 0 ]]; then
+        exit $ERROR_CODE
+    fi
     echo "::endgroup::"
 }
 
-trace "sudo npm install -g @cloudbase/cli --loglevel=error | grep @cloudbase/cli@" "\e[34mDownload and install cloudbase cli"
+trace "sudo npm install -g @cloudbase/cli --loglevel=error" "\e[34mDownload and install cloudbase cli"
 
-trace "tcb login --apiKeyId "$SECRET_ID" --apiKey "$SECRET_KEY" | grep "登录"" "\e[34mLogin to cloudbase"
+trace "tcb login --apiKeyId "$SECRET_ID" --apiKey "$SECRET_KEY"" "\e[34mLogin to cloudbase"
 
 trace "tcb framework deploy -e "$ENV_ID"" "\e[36mDeploy to cloudbase"
