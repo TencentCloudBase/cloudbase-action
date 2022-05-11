@@ -76,7 +76,7 @@
          - name: Checkout
            uses: actions/checkout@v2
          - name: Deploy to Tencent CloudBase
-           uses: TencentCloudBase/cloudbase-action@v2
+           uses: TencentCloudBase/cloudbase-action@v2.0.1
            with:
              secretId: ${{secrets.secretId}}
              secretKey: ${{secrets.secretKey}}
