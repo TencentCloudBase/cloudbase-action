@@ -30,12 +30,14 @@ trace() {
     # Group inner steps
     echo -e "::group::$2"
     echo -e "\e[32m› $1"
-    eval "$1"
+    if ! eval "$1" ; then
+        exit 1
+    fi
     echo "::endgroup::"
 }
 
-trace "sudo npm install -g @cloudbase/cli --loglevel=error | grep @cloudbase/cli@" "\e[34mDownload and install cloudbase cli"
+trace "sudo npm install -g @cloudbase/cli --loglevel=error --no-fund --no-audit --no-progress --prefer-offline" "\e[34mDownload and install cloudbase cli"
 
-trace "tcb login --apiKeyId "$SECRET_ID" --apiKey "$SECRET_KEY" | grep "登录"" "\e[34mLogin to cloudbase"
+trace "tcb login --apiKeyId "$SECRET_ID" --apiKey "$SECRET_KEY"" "\e[34mLogin to cloudbase"
 
 trace "tcb framework deploy -e "$ENV_ID"" "\e[36mDeploy to cloudbase"
